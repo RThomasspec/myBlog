@@ -1,4 +1,5 @@
-# Blog API
+# Blog API<img width="192" height="182" alt="image" src="https://github.com/user-attachments/assets/af7e4286-28d9-4ed9-9222-5b2000a840e3" />
+
 
 API REST de blog développée avec **NestJS**, **MongoDB** et **Docker**.
 
