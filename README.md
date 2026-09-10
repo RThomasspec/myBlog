@@ -1,98 +1,307 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
+# Blog API
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+API REST de blog développée avec **NestJS**, **MongoDB** et **Docker**.
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+Ce projet est avant tout un **projet d'entraînement au développement backend**. Il permet de mettre en pratique les notions fondamentales nécessaires à la création d'une API : gestion des utilisateurs, création et gestion d'articles, validation des données, pagination, accès à une base de données MongoDB et architecture d'une application NestJS.
 
-## Description
+## Fonctionnalités
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+* Création et gestion des utilisateurs
+* Création et gestion des articles
+* Association d'un article à son auteur
+* Récupération d'une liste d'articles
+* Pagination des articles
+* Tri des résultats
+* Validation des données avec **Zod**
+* Documentation de l'API avec **Swagger**
+* Persistance des données avec **MongoDB**
+* Architecture basée sur les modules, controllers, services et repositories
+* Environnement de développement entièrement conteneurisé avec **Docker**
 
-## Project setup
+## Technologies
 
-```bash
-$ npm install
-```
+* **NestJS**
+* **TypeScript**
+* **MongoDB**
+* **Mongoose**
+* **Zod**
+* **Swagger / OpenAPI**
+* **Docker & Docker Compose**
 
-## Compile and run the project
+## Prérequis
 
-```bash
-# development
-$ npm run start
+Pour utiliser le projet, il suffit d'avoir installé :
 
-# watch mode
-$ npm run start:dev
+* [Docker](https://www.docker.com/)
+* Docker Compose (inclus avec les versions récentes de Docker Desktop)
 
-# production mode
-$ npm run start:prod
-```
+Aucune installation de Node.js, MongoDB ou des dépendances npm n'est nécessaire sur la machine hôte.
 
-## Run tests
+## Installation
+
+Cloner le repository :
 
 ```bash
-# unit tests
-$ npm run test
-
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
+git clone <URL_DU_REPOSITORY>
+cd api
 ```
 
-## Deployment
-
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
-
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
+Puis démarrer le projet :
 
 ```bash
-$ npm install -g @nestjs/mau
-$ mau deploy
+docker compose up
 ```
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
+Docker va automatiquement :
 
-## Resources
+1. Construire l'image de l'API à partir du `Dockerfile`
+2. Installer les dépendances Node.js
+3. Démarrer l'application NestJS
+4. Démarrer un conteneur MongoDB
+5. Connecter l'API à MongoDB
 
-Check out a few resources that may come in handy when working with NestJS:
+L'API sera ensuite accessible sur :
 
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
+```text
+http://localhost:3000
+```
 
-## Support
+## Développement
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+Le projet utilise un volume Docker permettant de synchroniser le code local avec le conteneur.
 
-## Stay in touch
+Ainsi, les modifications effectuées dans `src/` sont prises en compte automatiquement par NestJS grâce au mode `start:dev`.
 
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+Pour arrêter les conteneurs :
 
-## License
+```bash
+docker compose down
+```
 
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+Pour reconstruire l'image après une modification du `Dockerfile` ou des dépendances :
+
+```bash
+docker compose up --build
+```
+
+## Documentation Swagger
+
+Une documentation interactive de l'API est disponible avec Swagger :
+
+```text
+http://localhost:3000/api
+```
+
+Elle permet de consulter les endpoints disponibles et de tester directement les requêtes HTTP.
+
+## Exemple de fonctionnalités
+
+### Utilisateurs
+
+L'API permet notamment de :
+
+```text
+POST   /users
+GET    /users
+GET    /users/:id
+PATCH  /users/:id
+DELETE /users/:id
+```
+
+### Articles
+
+L'API permet notamment de :
+
+```text
+POST   /articles
+GET    /articles
+GET    /articles/:id
+PATCH  /articles/:id
+DELETE /articles/:id
+```
+
+Les articles sont associés à un utilisateur afin d'identifier leur auteur.
+
+## Pagination
+
+La récupération des articles utilise une pagination.
+
+Par exemple :
+
+```http
+GET /articles?page=1
+```
+
+ou :
+
+```http
+GET /articles?page=2
+```
+
+Le nombre d'articles par page est défini côté serveur.
+
+Le backend transforme ensuite le numéro de page en paramètres MongoDB `skip` et `limit`.
+
+Exemple :
+
+```text
+Page 1 → skip 0
+Page 2 → skip 10
+Page 3 → skip 20
+```
+
+Une réponse paginée peut avoir la forme suivante :
+
+```json
+{
+  "data": [],
+  "meta": {
+    "currentPage": 1,
+    "totalItemsCount": 47,
+    "totalPagesCount": 5,
+    "itemsPerPage": 10
+  }
+}
+```
+
+## Architecture
+
+Le projet suit une organisation par fonctionnalités.
+
+Exemple :
+
+```text
+src/
+├── article/
+│   ├── article.controller.ts
+│   ├── article.service.ts
+│   ├── article.repository.ts
+│   ├── article.module.ts
+│   ├── dto/
+│   └── schemas/
+│
+├── user/
+│   ├── user.controller.ts
+│   ├── user.service.ts
+│   ├── user.repository.ts
+│   ├── user.module.ts
+│   ├── dto/
+│   └── schemas/
+│
+├── dto/
+├── schemas/
+└── app.module.ts
+```
+
+Le principe général est :
+
+```text
+Client
+   ↓
+Controller
+   ↓
+Service
+   ↓
+Repository
+   ↓
+MongoDB
+```
+
+Les responsabilités sont séparées afin de garder une application organisée et facilement évolutive.
+
+## Validation avec Zod
+
+Les données reçues par l'API sont validées avec **Zod**.
+
+Exemple :
+
+```ts
+export const createArticleSchema = z.object({
+  name: z.string().min(3),
+  description: z.string().min(10),
+});
+```
+
+Zod permet de définir les règles de validation tout en permettant d'inférer automatiquement les types TypeScript.
+
+## Docker
+
+Le projet contient deux services principaux :
+
+```text
+┌──────────────────────┐
+│       API            │
+│      NestJS          │
+│      :3000           │
+└──────────┬───────────┘
+           │
+           │ MongoDB
+           ↓
+┌──────────────────────┐
+│      MongoDB         │
+│      :27017          │
+└──────────────────────┘
+```
+
+La connexion entre l'API et MongoDB utilise le nom du service Docker :
+
+```text
+mongodb://mongo:27017/blog
+```
+
+`mongo` correspond au nom du service défini dans `docker-compose.yml`.
+
+## Commandes utiles
+
+Démarrer le projet :
+
+```bash
+docker compose up
+```
+
+Démarrer en reconstruisant l'image :
+
+```bash
+docker compose up --build
+```
+
+Arrêter les conteneurs :
+
+```bash
+docker compose down
+```
+
+Afficher les logs :
+
+```bash
+docker compose logs -f
+```
+
+Afficher les conteneurs :
+
+```bash
+docker compose ps
+```
+
+## Objectif du projet
+
+Ce projet est un **projet d'apprentissage** destiné à mettre en pratique les fondamentaux du développement backend avec NestJS.
+
+Il pourra être progressivement enrichi avec de nouvelles fonctionnalités comme :
+
+* Authentification
+* Autorisation et rôles
+* Commentaires
+* Likes
+* Recherche d'articles
+* Catégories et tags
+* Upload d'images
+* Tests unitaires et end-to-end
+* Gestion avancée des erreurs
+* Déploiement
+
+---
+
+## Licence
+
+Projet personnel à but éducatif.
