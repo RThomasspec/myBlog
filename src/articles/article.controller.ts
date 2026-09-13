@@ -6,11 +6,17 @@ import {
   Patch,
   Param,
   Delete,
+  Query,
 } from '@nestjs/common';
 import { ArticleService } from './article.service';
-import { CreateArticleDto } from './dto/create-article.dto';
-import { UpdateArticleDto } from './dto/update-article.dto';
-import { createArticleSchema } from './schemas/article.schema';
+import { createArticleSchema } from './dto/create-article.dto';
+import type { UpdateArticleDto } from './dto/update-article.dto';
+
+import type { CreateArticleDto } from './dto/create-article.dto';
+import { updateArticleSchema } from './dto/update-article.dto';
+import { ArticleSchema } from './schemas/article.schema';
+import { PaginatedQueryDto } from 'src/dto/requests/paginated-query.dto';
+import { paginatedQuerySchema } from 'src/dto/schema/paginated-query.schema';
 
 @Controller('article')
 export class ArticleController {
@@ -25,8 +31,8 @@ export class ArticleController {
   }
 
   @Get()
-  findAll() {
-    return this.articlesService.findAll();
+  findAll(@Query() query: PaginatedQueryDto) {
+    return this.articlesService.findAll(query);
   }
 
   @Get(':articleId')
@@ -37,7 +43,7 @@ export class ArticleController {
   @Patch(':articleId')
   update(
     @Param('articleId') articleId: string,
-    @Body({ schema: createArticleSchema }) updateArticleDto: UpdateArticleDto,
+    @Body({ schema: updateArticleSchema }) updateArticleDto: UpdateArticleDto,
   ) {
     return this.articlesService.update(articleId, updateArticleDto);
   }

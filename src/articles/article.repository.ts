@@ -4,6 +4,7 @@ import { Model } from 'mongoose';
 import { CreateArticleDto } from './dto/create-article.dto';
 import { UpdateArticleDto } from './dto/update-article.dto';
 import { Injectable } from '@nestjs/common';
+import { PaginatedQueryDto } from 'src/dto/requests/paginated-query.dto';
 
 @Injectable()
 export class ArticleRepository {
@@ -15,8 +16,18 @@ export class ArticleRepository {
     return this.model.create(articleDto);
   }
 
-  async findAllArticle() {
-    return this.model.find();
+  async findAllArticle(query: PaginatedQueryDto) {
+    const paginatedQueryDto = new PaginatedQueryDto(query);
+
+    const articles = await this.model
+      .find()
+      .sort(paginatedQueryDto.toMongoDbSort)
+      .skip(paginatedQueryDto.skip)
+      .limit(paginatedQueryDto.limit);
+
+    const totalItemsCount = articles.length;
+
+    return { articles, totalItemsCount };
   }
 
   async findArticle(idArticle: string) {

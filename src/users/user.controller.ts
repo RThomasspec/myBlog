@@ -8,15 +8,17 @@ import {
   Delete,
 } from '@nestjs/common';
 import { UserService } from './user.service';
-import { CreateUserDto } from './dto/create-user.dto';
-import { UpdateUserDto } from './dto/update-user.dto';
+import { createUserSchema } from './dto/create-user.dto';
+import type { CreateUserDto } from './dto/create-user.dto';
+import type { UpdateUserDto } from './dto/update-user.dto';
+import { updateArticleSchema } from './dto/update-user.dto';
 
 @Controller('user')
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
   @Post()
-  create(@Body() createUserDto: CreateUserDto) {
+  create(@Body({ schema: createUserSchema }) createUserDto: CreateUserDto) {
     console.log(createUserDto);
     return this.userService.create(createUserDto);
   }
@@ -34,7 +36,7 @@ export class UserController {
   @Patch(':id')
   update(
     @Param('id') id: string,
-    @Body()
+    @Body({ schema: updateArticleSchema })
     updateUserDto: UpdateUserDto,
   ) {
     return this.userService.update(id, updateUserDto);

@@ -2,6 +2,8 @@ import { Injectable } from '@nestjs/common';
 import { CreateArticleDto } from './dto/create-article.dto';
 import { UpdateArticleDto } from './dto/update-article.dto';
 import { ArticleRepository } from './article.repository';
+import { PaginatedQueryDto } from 'src/dto/requests/paginated-query.dto';
+import { PaginationDto } from 'src/dto/responses/pagination.dto';
 
 @Injectable()
 export class ArticleService {
@@ -10,8 +12,16 @@ export class ArticleService {
     return this.articleRepository.createArticle(createArticleDto);
   }
 
-  findAll() {
-    return this.articleRepository.findAllArticle();
+  async findAll(query: PaginatedQueryDto) {
+    const { articles, totalItemsCount } =
+      await this.articleRepository.findAllArticle(query);
+
+    const pagination = new PaginationDto(query, totalItemsCount);
+
+    return {
+      data: articles,
+      meta: pagination.meta,
+    };
   }
 
   findOne(id: string) {
