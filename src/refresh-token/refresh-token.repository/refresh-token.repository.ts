@@ -15,7 +15,7 @@ export class RefreshTokenRepository {
     return this.model.create({
       userId: data.userId,
       jti: data.jti,
-      platform: data.plateforme,
+      platform: data.platform,
       tokenHash: data.tokenHash,
       createdAt: data.createdAt,
       expiresAt: data.expiresAt,
@@ -23,6 +23,19 @@ export class RefreshTokenRepository {
     });
   }
 
+  async revokeByJti(jti: string) {
+    await this.model.updateOne(
+      {
+        jti,
+        revokedAt: null,
+      },
+      {
+        $set: {
+          revokedAt: new Date(),
+        },
+      },
+    );
+  }
   async findByJti(jti: string) {
     return this.model.findOne({ jti }).exec();
   }

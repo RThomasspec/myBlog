@@ -60,7 +60,6 @@ export class AuthService {
       );
     }
 
-    // ajout date expiration et date démission
     const accessToken = this.jwtService.sign({
       sub: user.id,
       type: 'access',
@@ -69,12 +68,13 @@ export class AuthService {
     });
 
     const jti = randomUUID();
-    // ajout date expiration et date démission
+
     const refreshToken = this.jwtService.sign(
       {
         sub: user.id,
         type: 'refresh',
         jti,
+        plateform: loginAuthDto.platform,
       },
       {
         secret: this.configService.getOrThrow('JWT_REFRESH_SECRET'),
@@ -91,7 +91,8 @@ export class AuthService {
     const data: RefreshTokenData = {
       userId: user.id,
       jti,
-      plateforme: loginAuthDto.platform,
+      lastUsedAt: new Date(),
+      platform: loginAuthDto.platform,
       tokenHash,
       createdAt,
       expiresAt,
@@ -100,18 +101,19 @@ export class AuthService {
 
     await this.refreshTokenRepository.Create(data);
 
-    return { accessToken, refreshToken, message: 'Connexion réussie' };
+    return { accessToken, refreshToken };
   }
 
-  async refresh(refreshTokenAuthDto: RefreshTokenAuthDto) {
+  async refresh(oldRefreshToken: string) {
     let payload: {
       sub: string;
       type: string;
       jti: string;
+      plateform: string;
     };
 
     try {
-      payload = this.jwtService.verify(refreshTokenAuthDto.refreshToken, {
+      payload = this.jwtService.verify(oldRefreshToken, {
         secret: this.configService.getOrThrow('JWT_REFRESH_SECRET'),
       });
     } catch {
@@ -152,7 +154,7 @@ export class AuthService {
 
     const isValid = await argon2.verify(
       refreshToken.tokenHash,
-      refreshTokenAuthDto.refreshToken,
+      oldRefreshToken,
     );
 
     if (!isValid) {
@@ -162,13 +164,52 @@ export class AuthService {
       );
     }
 
+    const jti = randomUUID();
+
+    const expiresAt = new Date();
+
+    expiresAt.setDate(expiresAt.getDate() + 30);
+    const createdAt = new Date();
+
+    const newRefreshToken = this.jwtService.sign(
+      {
+        sub: payload.sub,
+        type: 'refresh',
+        jti,
+        plateform: payload.plateform,
+      },
+      {
+        secret: this.configService.getOrThrow('JWT_REFRESH_SECRET'),
+        expiresIn: '30d',
+      },
+    );
+
+    const tokenHash = await argon2.hash(newRefreshToken);
+
+    const data: RefreshTokenData = {
+      userId: payload.sub,
+      jti,
+      lastUsedAt: new Date(),
+      platform: payload.plateform,
+      tokenHash,
+      createdAt,
+      expiresAt,
+      revokedAt: null,
+    };
+
+    await this.refreshTokenRepository.Create(data);
+    await this.refreshTokenRepository.revokeByJti(payload.jti);
+
     const accessToken = this.jwtService.sign({
       sub: refreshToken.userId,
       type: 'access',
+      secret: this.configService.getOrThrow('JWT_ACCESS_SECRET'),
+      expiresIn: '15m',
     });
 
     return {
       accessToken,
+      newRefreshToken,
     };
   }
   findAll() {

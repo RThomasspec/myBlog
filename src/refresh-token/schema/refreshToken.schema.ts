@@ -14,6 +14,9 @@ export class RefreshToken {
   @Prop({ required: true })
   jti: string;
 
+  @Prop()
+  lastUsedAt?: Date;
+
   @Prop({ required: true })
   platform: string;
 

@@ -1,7 +1,8 @@
 export interface RefreshTokenData {
   userId: string;
   jti: string;
-  plateforme: string;
+  lastUsedAt: Date;
+  platform: string;
   tokenHash: string;
   createdAt: Date;
   expiresAt: Date;
